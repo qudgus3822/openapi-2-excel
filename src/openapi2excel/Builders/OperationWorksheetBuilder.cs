@@ -21,7 +21,8 @@ internal class OperationWorksheetBuilder(IXLWorkbook workbook, OpenApiDocumentat
       CreateNewWorksheet(worksheet);
       _actualRowPointer.GoTo(1);
 
-      _attributesColumnsStartIndex = MaxPropertiesTreeLevel.Calculate(operation, Options.MaxDepth);
+      //_attributesColumnsStartIndex = MaxPropertiesTreeLevel.Calculate(operation, Options.MaxDepth);
+      _attributesColumnsStartIndex = 1;
       AdjustColumnsWidthToRequestTreeLevel();
 
       AddHomePageLink();

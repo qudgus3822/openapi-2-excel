@@ -16,7 +16,7 @@ internal class ResponseBodyBuilder(
       if (!operation.Responses.Any())
          return;
 
-      Cell(1).SetTextBold("RESPONSE");
+      Cell(1).SetTextBold("응답");
       ActualRow.MoveNext();
       using (var _ = new Section(Worksheet, ActualRow))
       {
@@ -60,7 +60,7 @@ internal class ResponseBodyBuilder(
       void InsertHeader(OpenApiSchemaDescriptor schemaDescriptor)
       {
          var nextCell = Cell(1).SetTextBold("파라미터명")
-            .CellRight(attributesColumnIndex + 1).GetColumnNumber();
+            .CellRight(attributesColumnIndex).GetColumnNumber();
 
          var lastUsedColumn = schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell);
 

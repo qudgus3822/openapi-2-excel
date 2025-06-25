@@ -10,7 +10,7 @@ internal class PropertiesTreeBuilder(
    IXLWorksheet worksheet,
    OpenApiDocumentationOptions options)
 {
-   private readonly int _attributesColumnIndex = attributesColumnIndex + 2;
+   private readonly int _attributesColumnIndex = attributesColumnIndex +1;
    protected OpenApiDocumentationOptions Options { get; } = options;
    protected IXLWorksheet Worksheet { get; } = worksheet;
    private RowPointer ActualRow { get; set; } = null!;
@@ -113,17 +113,18 @@ internal class PropertiesTreeBuilder(
    }
 
    private void AddPropertyRow(string propertyName, OpenApiSchema propertySchema, bool required, int propertyLevel)
-   {
-      const int startColumn = 1;
-      Worksheet.Cell(ActualRow, startColumn).SetBackground(propertyLevel - 1, HeaderBackgroundColor);
+    {
+        //const int startColumn = 1;
+        //Worksheet.Cell(ActualRow, startColumn).SetBackground(propertyLevel - 1, HeaderBackgroundColor);
 
-      var schemaDescriptor = new OpenApiSchemaDescriptor(Worksheet, Options);
-      schemaDescriptor.AddNameValue(propertyName, ActualRow, propertyLevel);
-      schemaDescriptor.AddSchemaDescriptionValues(propertySchema, required, ActualRow, _attributesColumnIndex);
-      ActualRow.MoveNext();
-   }
+        var schemaDescriptor = new OpenApiSchemaDescriptor(Worksheet, Options);
+        propertyName = string.Concat(Enumerable.Repeat("> ", propertyLevel -1)) + propertyName;
+        schemaDescriptor.AddNameValue(propertyName, ActualRow, 1);
+        schemaDescriptor.AddSchemaDescriptionValues(propertySchema, required, ActualRow, _attributesColumnIndex);
+        ActualRow.MoveNext();
+    }
 
-   protected int AddSchemaDescriptionHeader()
+    protected int AddSchemaDescriptionHeader()
    {
       const int startColumn = 1;
 

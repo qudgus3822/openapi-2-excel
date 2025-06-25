@@ -20,19 +20,18 @@ internal class RequestParametersBuilder(
       if (!operation.Parameters.Any())
          return;
 
-      Cell(1).SetTextBold("PARAMETERS");
+      Cell(1).SetTextBold("파라미터");
       ActualRow.MoveNext();
       using (var _ = new Section(Worksheet, ActualRow))
       {
          var nextCell = Cell(1).SetTextBold("파라미터명")
-            .CellRight(attributesColumnIndex - 1).SetTextBold("Location")
-            .CellRight().SetTextBold("Serialization")
+            //.CellRight(attributesColumnIndex - 1).SetTextBold("Location")
+            //.CellRight().SetTextBold("Serialization")
             .CellRight();
 
-         var lastUsedColumn = _schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell.Address.ColumnNumber);
+            var lastUsedColumn = _schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell.Address.ColumnNumber);
 
-         Cell(1).SetBackground(lastUsedColumn, HeaderBackgroundColor)
-            .SetBottomBorder(lastUsedColumn);
+         Cell(1).SetBackground(lastUsedColumn, HeaderBackgroundColor).SetBottomBorder(lastUsedColumn);
 
          ActualRow.MoveNext();
          foreach (var operationParameter in operation.Parameters)
@@ -47,12 +46,12 @@ internal class RequestParametersBuilder(
 
    private void AddPropertyRow(OpenApiParameter parameter)
    {
-      var nextCell = Cell(1).SetText(parameter.Name)
-         .CellRight(attributesColumnIndex - 1).SetText(parameter.In.ToString()?.ToUpper())
-         .CellRight().SetText(parameter.Style?.ToString())
-         .CellRight();
+        var nextCell = Cell(1).SetText(parameter.Name)
+           //.CellRight(attributesColumnIndex - 1).SetText(parameter.In.ToString()?.ToUpper())
+        //.CellRight().SetText(parameter.Style?.ToString())
+        .CellRight();
 
-      _schemaDescriptor.AddSchemaDescriptionValues(parameter.Schema, parameter.Required, ActualRow, nextCell.Address.ColumnNumber, parameter.Description, true );
-      ActualRow.MoveNext();
+        _schemaDescriptor.AddSchemaDescriptionValues(parameter.Schema, parameter.Required, ActualRow, nextCell.Address.ColumnNumber, parameter.Description, true);
+        ActualRow.MoveNext();
    }
 }
