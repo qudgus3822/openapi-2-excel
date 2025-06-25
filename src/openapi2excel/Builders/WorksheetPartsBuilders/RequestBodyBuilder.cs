@@ -16,7 +16,7 @@ internal class RequestBodyBuilder(
       if (operation.RequestBody is null)
          return;
 
-      Cell(1).SetTextBold("REQUEST");
+      Cell(1).SetTextBold("ฟไรป");
       ActualRow.MoveNext();
 
       using (var _ = new Section(Worksheet, ActualRow))

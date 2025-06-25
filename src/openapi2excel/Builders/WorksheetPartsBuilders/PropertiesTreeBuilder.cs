@@ -17,32 +17,36 @@ internal class PropertiesTreeBuilder(
    protected XLColor HeaderBackgroundColor => XLColor.LightGray;
 
    public void AddPropertiesTreeForMediaTypes(RowPointer actualRow, IDictionary<string, OpenApiMediaType> mediaTypes, OpenApiDocumentationOptions options)
-   {
-      ActualRow = actualRow;
-      foreach (var mediaType in mediaTypes)
-      {
-         var bodyFormatRowPointer = ActualRow.Copy();
-         Worksheet.Cell(ActualRow, 1).SetTextBold($"Body format: {mediaType.Key}");
-         ActualRow.MoveNext();
-
-         if (mediaType.Value.Schema != null)
-         {
-            using (var _ = new Section(Worksheet, ActualRow))
+    {
+        ActualRow = actualRow;
+        foreach (var mediaType in mediaTypes)
+        {
+            if (mediaType.Key != "application/json")
             {
-               var columnCount = AddPropertiesTree(ActualRow, mediaType.Value.Schema, options);
-               Worksheet.Cell(bodyFormatRowPointer, 1).SetBackground(columnCount, HeaderBackgroundColor);
-               ActualRow.MovePrev();
+                continue;
             }
-            ActualRow.MoveNext(2);
-         }
-         else
-         {
+            var bodyFormatRowPointer = ActualRow.Copy();
+            Worksheet.Cell(ActualRow, 1).SetTextBold($"Body format: {mediaType.Key}");
             ActualRow.MoveNext();
-         }
-      }
-   }
 
-   public int AddPropertiesTree(RowPointer actualRow, OpenApiSchema schema, OpenApiDocumentationOptions options)
+            if (mediaType.Value.Schema != null)
+            {
+                using (var _ = new Section(Worksheet, ActualRow))
+                {
+                    var columnCount = AddPropertiesTree(ActualRow, mediaType.Value.Schema, options);
+                    Worksheet.Cell(bodyFormatRowPointer, 1).SetBackground(columnCount, HeaderBackgroundColor);
+                    ActualRow.MovePrev();
+                }
+                ActualRow.MoveNext(2);
+            }
+            else
+            {
+                ActualRow.MoveNext();
+            }
+        }
+    }
+
+    public int AddPropertiesTree(RowPointer actualRow, OpenApiSchema schema, OpenApiDocumentationOptions options)
    {
       ActualRow = actualRow;
       var columnCount = AddSchemaDescriptionHeader();

@@ -7,7 +7,7 @@ namespace openapi2excel.core.Builders.WorksheetPartsBuilders.Common;
 internal class OpenApiSchemaDescriptor(IXLWorksheet worksheet, OpenApiDocumentationOptions options)
 {
    public int AddNameHeader(RowPointer actualRow, int startColumn)
-      => worksheet.Cell(actualRow, startColumn).SetTextBold("Name").GetColumnNumber();
+      => worksheet.Cell(actualRow, startColumn).SetTextBold("파라미터명").GetColumnNumber();
 
    public int AddNameValue(string name, int actualRow, int startColumn)
       => worksheet.Cell(actualRow, startColumn).SetText(name).GetColumnNumber();

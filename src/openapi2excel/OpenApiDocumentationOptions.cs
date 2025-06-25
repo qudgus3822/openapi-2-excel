@@ -28,7 +28,7 @@ public class OpenApiDocumentationLanguage : Dictionary<string, string>
       return TryGetValue(OpenApiDocumentationLanguageConst.No, out var noResult) ? noResult : "<LANG_ERROR>";
    }
 
-   internal static OpenApiDocumentationLanguage Default
+   public static OpenApiDocumentationLanguage Default
       => new()
       {
          { OpenApiDocumentationLanguageConst.Info, "Info" },
@@ -39,6 +39,28 @@ public class OpenApiDocumentationLanguage : Dictionary<string, string>
          { OpenApiDocumentationLanguageConst.Path, "Path" },
          { OpenApiDocumentationLanguageConst.PathSummary, "Path summary" },
          { OpenApiDocumentationLanguageConst.PathDescription, "Path description" },
+
+         { OpenApiDocumentationLanguageConst.OperationType, "Operation type" },
+         { OpenApiDocumentationLanguageConst.OperationSummary, "Operation summary" },
+         { OpenApiDocumentationLanguageConst.OperationDescription, "Operation description" },
+         { OpenApiDocumentationLanguageConst.Deprecated, "Deprecated" },
+
+         { OpenApiDocumentationLanguageConst.Yes, "Yes" },
+         { OpenApiDocumentationLanguageConst.No, "No" }
+      };
+
+
+    public static OpenApiDocumentationLanguage Ko
+      => new()
+      {
+         { OpenApiDocumentationLanguageConst.Info, "표지" },
+         { OpenApiDocumentationLanguageConst.Title, "제목" },
+         { OpenApiDocumentationLanguageConst.Version, "버전" },
+         { OpenApiDocumentationLanguageConst.Description, "설명" },
+
+         { OpenApiDocumentationLanguageConst.Path, "경로" },
+         { OpenApiDocumentationLanguageConst.PathSummary, "경로 요약" },
+         { OpenApiDocumentationLanguageConst.PathDescription, "경로 설명" },
 
          { OpenApiDocumentationLanguageConst.OperationType, "Operation type" },
          { OpenApiDocumentationLanguageConst.OperationSummary, "Operation summary" },

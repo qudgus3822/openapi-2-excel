@@ -15,19 +15,19 @@ internal class OperationInfoBuilder(
    public void AddOperationInfoSection(string path, OpenApiPathItem pathItem, OperationType operationType,
       OpenApiOperation operation)
    {
-      Cell(1).SetTextBold("OPERATION INFORMATION");
+      Cell(1).SetTextBold("API 정보");
       ActualRow.MoveNext();
 
       using (var _ = new Section(Worksheet, ActualRow))
       {
-         var cell = Cell(1).SetTextBold("Operation type").CellRight(attributesColumnIndex).SetText(operationType.ToString().ToUpper())
-            .IfNotEmpty(operation.OperationId, c => c.NextRow().SetTextBold("Id").CellRight(attributesColumnIndex).SetText(operation.OperationId))
-            .NextRow().SetTextBold("Path").CellRight(attributesColumnIndex).SetText(path)
-            .IfNotEmpty(pathItem.Description, c => c.NextRow().SetTextBold("Path description").CellRight(attributesColumnIndex).SetText(pathItem.Description))
-            .IfNotEmpty(pathItem.Summary, c => c.NextRow().SetTextBold("Path summary").CellRight(attributesColumnIndex).SetText(pathItem.Summary))
-            .IfNotEmpty(operation.Description, c => c.NextRow().SetTextBold("Operation description").CellRight(attributesColumnIndex).SetText(operation.Description))
-            .IfNotEmpty(operation.Summary, c => c.NextRow().SetTextBold("Operation summary").CellRight(attributesColumnIndex).SetText(operation.Summary))
-            .NextRow().SetTextBold("Deprecated").CellRight(attributesColumnIndex).SetText(Options.Language.Get(operation.Deprecated));
+            var cell = Cell(1).SetTextBold("METHOD").CellRight(attributesColumnIndex).SetText(operationType.ToString().ToUpper())
+               .IfNotEmpty(operation.OperationId, c => c.NextRow().SetTextBold("Id").CellRight(attributesColumnIndex).SetText(operation.OperationId))
+               .NextRow().SetTextBold("경로").CellRight(attributesColumnIndex).SetText(path)
+               .IfNotEmpty(pathItem.Description, c => c.NextRow().SetTextBold("경로 설명").CellRight(attributesColumnIndex).SetText(pathItem.Description))
+               .IfNotEmpty(pathItem.Summary, c => c.NextRow().SetTextBold("경로 요약").CellRight(attributesColumnIndex).SetText(pathItem.Summary));
+            //.IfNotEmpty(operation.Description, c => c.NextRow().SetTextBold("Operation description").CellRight(attributesColumnIndex).SetText(operation.Description))
+            //.IfNotEmpty(operation.Summary, c => c.NextRow().SetTextBold("Operation summary").CellRight(attributesColumnIndex).SetText(operation.Summary))
+            //.NextRow().SetTextBold("Deprecated").CellRight(attributesColumnIndex).SetText(Options.Language.Get(operation.Deprecated));
 
          ActualRow.GoTo(cell.Address.RowNumber);
       }

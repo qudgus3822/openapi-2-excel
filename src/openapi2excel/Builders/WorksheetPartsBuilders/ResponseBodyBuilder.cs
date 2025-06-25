@@ -59,7 +59,7 @@ internal class ResponseBodyBuilder(
 
       void InsertHeader(OpenApiSchemaDescriptor schemaDescriptor)
       {
-         var nextCell = Cell(1).SetTextBold("Name")
+         var nextCell = Cell(1).SetTextBold("파라미터명")
             .CellRight(attributesColumnIndex + 1).GetColumnNumber();
 
          var lastUsedColumn = schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell);

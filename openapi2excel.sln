@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openapi2excel.tests", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openapi2excel.cli", "src\openapi2excel.cli\openapi2excel.cli.csproj", "{F41F6F53-6BB3-41DF-AB89-EC6195329632}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openapi2excel.console", "openapi2exxcel.console\openapi2excel.console.csproj", "{71A2AA55-7F31-4589-9BAF-186371EE2E70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90BAE74F-E824-41C6-8358-74B0781ECE75} = {90BAE74F-E824-41C6-8358-74B0781ECE75}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +32,10 @@ Global
 		{F41F6F53-6BB3-41DF-AB89-EC6195329632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F41F6F53-6BB3-41DF-AB89-EC6195329632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F41F6F53-6BB3-41DF-AB89-EC6195329632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A2AA55-7F31-4589-9BAF-186371EE2E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A2AA55-7F31-4589-9BAF-186371EE2E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A2AA55-7F31-4589-9BAF-186371EE2E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A2AA55-7F31-4589-9BAF-186371EE2E70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
