@@ -11,21 +11,21 @@ internal class RequestBodyBuilder(
    IXLWorksheet worksheet,
    OpenApiDocumentationOptions options) : WorksheetPartBuilder(actualRow, worksheet, options)
 {
-   public void AddRequestBodyPart(OpenApiOperation operation)
-   {
-      if (operation.RequestBody is null)
-         return;
+    public void AddRequestBodyPart(OpenApiOperation operation)
+    {
+        if (operation.RequestBody is null)
+            return;
 
-      Cell(1).SetTextBold("요청");
-      ActualRow.MoveNext();
+        Cell(1).SetTextBold("요청");
+        ActualRow.MoveNext();
 
-      using (var _ = new Section(Worksheet, ActualRow))
-      {
-         var builder = new PropertiesTreeBuilder(attributesColumnIndex, Worksheet, Options);
-         builder.AddPropertiesTreeForMediaTypes(ActualRow, operation.RequestBody.Content, Options);
-         ActualRow.MovePrev();
-      }
+        using (var _ = new Section(Worksheet, ActualRow))
+        {
+            var builder = new PropertiesTreeBuilder(attributesColumnIndex, Worksheet, Options);
+            builder.AddPropertiesTreeForMediaTypes(ActualRow, operation.RequestBody.Content, Options);
+            ActualRow.MovePrev();
+        }
 
-      ActualRow.MoveNext(2);
-   }
+        ActualRow.MoveNext(2);
+    }
 }
