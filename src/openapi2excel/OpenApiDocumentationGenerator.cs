@@ -53,28 +53,77 @@ public static class OpenApiDocumentationGenerator
        
         foreach (var worksheet in workbook.Worksheets)
         {
-            // C#
+            // 워크시트 기본 스타일 설정
+            worksheet.Style.Font.FontName = "맑은 고딕";
+            worksheet.Style.Font.FontSize = 10;
+            worksheet.Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+            
             var usedRange = worksheet.RangeUsed();
             if (usedRange != null)
             {
+                // 컬럼 너비 자동 조정
                 foreach (var rangeColumn in usedRange.Columns())
                 {
-                    // rangeColumn.ColumnNumber()�� 1-based �ε���
-                    worksheet.Column(rangeColumn.ColumnNumber()).AdjustToContents();
-                }
-
-                foreach (var rangeColumn in usedRange.Columns())
-                {
-                    double minWidth = 15; // ���ϴ� �ּ� �ʺ�(����)
                     var col = worksheet.Column(rangeColumn.ColumnNumber());
                     col.AdjustToContents();
+                    
+                    // 컬럼별 최소/최대 너비 설정
+                    double minWidth = 12;  // 최소 너비
+                    double maxWidth = 80;  // 최대 너비 (설명 컬럼 등을 위해)
+                    
                     if (col.Width < minWidth)
                         col.Width = minWidth;
+                    else if (col.Width > maxWidth)
+                        col.Width = maxWidth;
                 }
+                
+                // 행 높이는 자동 조정하지 않음 (성능상 이유)
+                // foreach (var row in usedRange.Rows())
+                // {
+                //     row.AdjustToContents();
+                // }
+                
+                // 워크시트에 보기 좋은 격자선 설정
+                worksheet.ShowGridLines = true;
+                
+                // 첫 번째 행 고정 (헤더가 있는 경우)
+                if (usedRange.RowCount() > 1)
+                {
+                    // 첫 번째 데이터 행 찾기 (보통 헤더 다음)
+                    var firstDataRow = 2;
+                    for (int i = 1; i <= usedRange.RowCount(); i++)
+                    {
+                        var firstCell = worksheet.Cell(i, 1);
+                        if (firstCell.Style.Font.Bold && 
+                            (firstCell.Style.Fill.BackgroundColor == XLColor.FromArgb(68, 114, 196) ||
+                             firstCell.Value.ToString().Contains("파라미터") ||
+                             firstCell.Value.ToString().Contains("Type")))
+                        {
+                            firstDataRow = i + 1;
+                            break;
+                        }
+                    }
+                    
+                    if (firstDataRow <= usedRange.RowCount())
+                    {
+                        worksheet.SheetView.FreezeRows(firstDataRow - 1);
+                    }
+                }
+                
+                // 인쇄 설정 개선
+                worksheet.PageSetup.PageOrientation = XLPageOrientation.Portrait;
+                worksheet.PageSetup.Margins.Top = 0.75;
+                worksheet.PageSetup.Margins.Bottom = 0.75;
+                worksheet.PageSetup.Margins.Left = 0.7;
+                worksheet.PageSetup.Margins.Right = 0.7;
+                
+                // 페이지 번호 추가
+                worksheet.PageSetup.Header.Right.AddText("페이지 ");
+                worksheet.PageSetup.Header.Right.AddText(XLHFPredefinedText.PageNumber);
+                worksheet.PageSetup.Header.Right.AddText(" / ");
+                worksheet.PageSetup.Header.Right.AddText(XLHFPredefinedText.NumberOfPages);
             }
         }
-
-       
 
         workbook.SaveAs(new FileInfo(outputFile).FullName);
     }

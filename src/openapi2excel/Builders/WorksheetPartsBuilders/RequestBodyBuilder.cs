@@ -16,7 +16,7 @@ internal class RequestBodyBuilder(
         if (operation.RequestBody is null)
             return;
 
-        Cell(1).SetTextBold("¿äÃ»");
+        Cell(1).SetTextTitle("ìš”ì²­");
         ActualRow.MoveNext();
 
         using (var _ = new Section(Worksheet, ActualRow))

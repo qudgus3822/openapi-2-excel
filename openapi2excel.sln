@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openapi2excel.console", "sr
 		{90BAE74F-E824-41C6-8358-74B0781ECE75} = {90BAE74F-E824-41C6-8358-74B0781ECE75}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openapi2excel.winform", "src\openapi2excel.winform\openapi2excel.winform.csproj", "{5A760A98-DFF9-4423-AC61-9AEA50CE9CAC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,10 +36,6 @@ Global
 		{F4D560F7-278A-47AA-ABDC-D24356BA9DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4D560F7-278A-47AA-ABDC-D24356BA9DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4D560F7-278A-47AA-ABDC-D24356BA9DAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A760A98-DFF9-4423-AC61-9AEA50CE9CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A760A98-DFF9-4423-AC61-9AEA50CE9CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A760A98-DFF9-4423-AC61-9AEA50CE9CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A760A98-DFF9-4423-AC61-9AEA50CE9CAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

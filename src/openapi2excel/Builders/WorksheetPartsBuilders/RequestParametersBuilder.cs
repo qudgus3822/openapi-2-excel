@@ -20,20 +20,28 @@ internal class RequestParametersBuilder(
       if (!operation.Parameters.Any())
          return;
 
-      Cell(1).SetTextBold("ÆÄ¶ó¹ÌÅÍ");
+      Cell(1).SetTextTitle("íŒŒë¼ë¯¸í„°");
       ActualRow.MoveNext();
+      
       using (var _ = new Section(Worksheet, ActualRow))
       {
-         var nextCell = Cell(1).SetTextBold("ÆÄ¶ó¹ÌÅÍ¸í")
-            //.CellRight(attributesColumnIndex - 1).SetTextBold("Location")
-            //.CellRight().SetTextBold("Serialization")
-            .CellRight();
+         var nameHeaderCell = Cell(1).SetTextHeader("íŒŒë¼ë¯¸í„°ëª…");
+         var locationHeaderCell = nameHeaderCell.CellRight().SetTextHeader("ìœ„ì¹˜");
+         var nextCell = locationHeaderCell.CellRight();
 
-            var lastUsedColumn = _schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell.Address.ColumnNumber);
+         var lastUsedColumn = _schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell.Address.ColumnNumber);
 
-         Cell(1).SetBackground(lastUsedColumn, HeaderBackgroundColor).SetBottomBorder(lastUsedColumn);
+         var headerRange = Worksheet.Range(ActualRow.Get(), 1, ActualRow.Get(), lastUsedColumn);
+         foreach (var cell in headerRange.Cells())
+         {
+            if (string.IsNullOrEmpty(cell.Value.ToString()))
+            {
+               cell.SetHeaderStyle();
+            }
+         }
 
          ActualRow.MoveNext();
+         
          foreach (var operationParameter in operation.Parameters)
          {
             AddPropertyRow(operationParameter);
@@ -46,12 +54,44 @@ internal class RequestParametersBuilder(
 
    private void AddPropertyRow(OpenApiParameter parameter)
    {
-        var nextCell = Cell(1).SetText(parameter.Name)
-           //.CellRight(attributesColumnIndex - 1).SetText(parameter.In.ToString()?.ToUpper())
-        //.CellRight().SetText(parameter.Style?.ToString())
-        .CellRight();
+      var nameCell = Cell(1).SetTextData(parameter.Name);
+      
+      var locationCell = nameCell.CellRight();
+      locationCell.SetTextData(parameter.In.ToString()?.ToUpper());
+      
+      var locationColor = parameter.In.ToString()?.ToUpper() switch
+      {
+         "PATH" => XLColor.FromArgb(255, 235, 156),
+         "QUERY" => XLColor.FromArgb(201, 242, 155),
+         "HEADER" => XLColor.FromArgb(174, 203, 250),
+         "COOKIE" => XLColor.FromArgb(255, 204, 204),
+         _ => XLColor.White
+      };
+      locationCell.Style.Fill.SetBackgroundColor(locationColor);
+      locationCell.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+      locationCell.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+      locationCell.Style.Font.SetBold(true);
 
-        _schemaDescriptor.AddSchemaDescriptionValues(parameter.Schema, parameter.Required, ActualRow, nextCell.Address.ColumnNumber, parameter.Description, true);
-        ActualRow.MoveNext();
+      var nextCell = locationCell.CellRight();
+
+      if (parameter.Schema != null)
+      {
+         _schemaDescriptor.AddSchemaDescriptionValues(parameter.Schema, parameter.Required, ActualRow, nextCell.Address.ColumnNumber, parameter.Description, true);
+      }
+      
+      var lastColumn = Worksheet.LastColumnUsed();
+      if (lastColumn != null)
+      {
+         var rowRange = Worksheet.Range(ActualRow.Get(), 1, ActualRow.Get(), lastColumn.ColumnNumber());
+         foreach (var cell in rowRange.Cells())
+         {
+            if (cell.Address.ColumnNumber != locationCell.Address.ColumnNumber)
+            {
+               cell.SetDataStyle();
+            }
+         }
+      }
+
+      ActualRow.MoveNext();
    }
 }

@@ -16,8 +16,9 @@ internal class ResponseBodyBuilder(
       if (!operation.Responses.Any())
          return;
 
-      Cell(1).SetTextBold("¿¿¥‰");
+      Cell(1).SetTextTitle("ÏùëÎãµ");
       ActualRow.MoveNext();
+      
       using (var _ = new Section(Worksheet, ActualRow))
       {
          var builder = new PropertiesTreeBuilder(attributesColumnIndex, Worksheet, Options);
@@ -39,7 +40,7 @@ internal class ResponseBodyBuilder(
       ActualRow.MoveNext();
 
       var responseHeadertRowPointer = ActualRow.Copy();
-      Cell(1).SetTextBold("Response headers");
+      Cell(1).SetTextSubHeader("Response Headers");
       ActualRow.MoveNext();
 
       using (var _ = new Section(Worksheet, ActualRow))
@@ -59,39 +60,64 @@ internal class ResponseBodyBuilder(
 
       void InsertHeader(OpenApiSchemaDescriptor schemaDescriptor)
       {
-         var nextCell = Cell(1).SetTextBold("∆ƒ∂ÛπÃ≈Õ∏Ì")
-            .CellRight(attributesColumnIndex).GetColumnNumber();
+         var nameHeaderCell = Cell(1).SetTextHeader("Ìó§ÎçîÎ™Ö");
+         var nextCell = nameHeaderCell.CellRight(attributesColumnIndex).GetColumnNumber();
 
          var lastUsedColumn = schemaDescriptor.AddSchemaDescriptionHeader(ActualRow, nextCell);
 
-         Worksheet.Cell(ActualRow, 1)
-            .SetBackground(lastUsedColumn, HeaderBackgroundColor)
-            .SetBottomBorder(lastUsedColumn);
+         var headerRange = Worksheet.Range(ActualRow.Get(), 1, ActualRow.Get(), lastUsedColumn);
+         foreach (var cell in headerRange.Cells())
+         {
+            if (string.IsNullOrEmpty(cell.Value.ToString()))
+            {
+               cell.SetHeaderStyle();
+            }
+         }
 
-         Worksheet.Cell(responseHeadertRowPointer, 1)
-            .SetBackground(lastUsedColumn, HeaderBackgroundColor);
+         Worksheet.Cell(responseHeadertRowPointer, 1).SetSubHeaderStyle();
       }
 
       void InsertProperty(KeyValuePair<string, OpenApiHeader> openApiHeader, OpenApiSchemaDescriptor schemaDescriptor)
       {
-         var nextCellNumber = Cell(1).SetText(openApiHeader.Key)
-            .CellRight(attributesColumnIndex + 1).GetColumnNumber();
+         var nameCell = Cell(1).SetTextData(openApiHeader.Key);
+         nameCell.Style.Font.SetFontName("Consolas");
+         nameCell.Style.Fill.SetBackgroundColor(XLColor.FromArgb(245, 245, 245));
+
+         var nextCellNumber = nameCell.CellRight(attributesColumnIndex + 1).GetColumnNumber();
 
          nextCellNumber = schemaDescriptor.AddSchemaDescriptionValues(openApiHeader.Value.Schema, openApiHeader.Value.Required, ActualRow, nextCellNumber);
 
-         Cell(nextCellNumber).SetText(openApiHeader.Value.Description);
+         var descCell = Cell(nextCellNumber);
+         descCell.SetTextData(openApiHeader.Value.Description);
+         descCell.Style.Alignment.SetWrapText(true);
       }
    }
 
    private void AddResponseHttpCode(string httpCode, string? description)
    {
-      var responseCode = httpCode.Equals("default") ? "Default response" : $"Response HttpCode: {httpCode}";
+      var isSuccessCode = httpCode.StartsWith("2") || httpCode.Equals("default");
+      var responseCode = httpCode.Equals("default") ? "Í∏∞Î≥∏ ÏùëÎãµ" : $"HTTP {httpCode}";
+      
       if (!string.IsNullOrEmpty(description) && !description.Equals("default response"))
       {
          responseCode += $": {description}";
       }
 
-      Cell(1).SetTextBold(responseCode);
+      var codeCell = Cell(1);
+      codeCell.SetTextData(responseCode);
+      
+      if (isSuccessCode)
+      {
+         codeCell.SetSuccessResponseStyle();
+      }
+      else if (httpCode.StartsWith("4") || httpCode.StartsWith("5"))
+      {
+         codeCell.SetErrorResponseStyle();
+      }
+      else
+      {
+         codeCell.SetSubHeaderStyle();
+      }
 
       ActualRow.MoveNext();
    }
