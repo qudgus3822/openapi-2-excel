@@ -53,14 +53,14 @@ public class OpenApiDocumentationLanguage : Dictionary<string, string>
     public static OpenApiDocumentationLanguage Ko
       => new()
       {
-         { OpenApiDocumentationLanguageConst.Info, "Ç¥Áö" },
-         { OpenApiDocumentationLanguageConst.Title, "Á¦¸ñ" },
-         { OpenApiDocumentationLanguageConst.Version, "¹öÀü" },
-         { OpenApiDocumentationLanguageConst.Description, "¼³¸í" },
+         { OpenApiDocumentationLanguageConst.Info, "Ç¥ï¿½ï¿½" },
+         { OpenApiDocumentationLanguageConst.Title, "ï¿½ï¿½ï¿½ï¿½" },
+         { OpenApiDocumentationLanguageConst.Version, "ï¿½ï¿½ï¿½ï¿½" },
+         { OpenApiDocumentationLanguageConst.Description, "ï¿½ï¿½ï¿½ï¿½" },
 
-         { OpenApiDocumentationLanguageConst.Path, "°æ·Î" },
-         { OpenApiDocumentationLanguageConst.PathSummary, "°æ·Î ¿ä¾à" },
-         { OpenApiDocumentationLanguageConst.PathDescription, "°æ·Î ¼³¸í" },
+         { OpenApiDocumentationLanguageConst.Path, "ï¿½ï¿½ï¿½" },
+         { OpenApiDocumentationLanguageConst.PathSummary, "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½" },
+         { OpenApiDocumentationLanguageConst.PathDescription, "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" },
 
          { OpenApiDocumentationLanguageConst.OperationType, "Operation type" },
          { OpenApiDocumentationLanguageConst.OperationSummary, "Operation summary" },
@@ -74,7 +74,7 @@ public class OpenApiDocumentationLanguage : Dictionary<string, string>
 
 public static class OpenApiDocumentationLanguageConst
 {
-   public const string Info = "Info";
+   public const string Info = "í‘œì§€";
    public const string Title = "Title";
    public const string Version = "Version";
    public const string Description = "Description";

@@ -89,24 +89,36 @@ public static class OpenApiDocumentationGenerator
                 // 첫 번째 행 고정 (헤더가 있는 경우)
                 if (usedRange.RowCount() > 1)
                 {
-                    // 첫 번째 데이터 행 찾기 (보통 헤더 다음)
-                    var firstDataRow = 2;
+                    // "작업 요약" 행까지 찾기
+                    var freezeRowIndex = 1; // 기본값은 첫 번째 행
                     for (int i = 1; i <= usedRange.RowCount(); i++)
                     {
                         var firstCell = worksheet.Cell(i, 1);
+                        var cellValue = firstCell.Value.ToString();
+                        
+                        // "작업 요약" 텍스트가 포함된 행을 찾으면 그 행까지 고정
+                        if (cellValue.Contains("작업 요약"))
+                        {
+                            freezeRowIndex = i;
+                            break;
+                        }
+                        
+                        // "작업 요약"이 없는 경우를 위한 기본 헤더 찾기 (기존 로직 유지)
                         if (firstCell.Style.Font.Bold && 
                             (firstCell.Style.Fill.BackgroundColor == XLColor.FromArgb(68, 114, 196) ||
                              firstCell.Value.ToString().Contains("파라미터") ||
                              firstCell.Value.ToString().Contains("Type")))
                         {
-                            firstDataRow = i + 1;
-                            break;
+                            if (!cellValue.Contains("작업 요약"))
+                            {
+                                freezeRowIndex = i;
+                            }
                         }
                     }
                     
-                    if (firstDataRow <= usedRange.RowCount())
+                    if (freezeRowIndex <= usedRange.RowCount())
                     {
-                        worksheet.SheetView.FreezeRows(firstDataRow - 1);
+                        worksheet.SheetView.FreezeRows(freezeRowIndex);
                     }
                 }
                 
